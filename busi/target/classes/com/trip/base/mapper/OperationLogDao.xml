@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.base.dao.OperationLogDao">
+
+    <resultMap id="resultMap" type="com.trip.base.entity.OperationLog" extends="base.idEntityMap">
+        
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="ip != null and ip != ''">ip = #{ip}, </if>
+            <if test="createUser != null and createUser != ''">create_user = #{createUser}, </if>
+			<if test="instr != null and instr != ''">instr = #{instr}, </if>
+			<if test="outstr != null and outstr != ''">outstr = #{outstr}, </if>
+			<if test="module != null and module != ''">module = #{module}, </if>
+			<if test="url != null and url != ''">url = #{url}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.ip != null and o.ip != ''"> and ip = #{o.ip}</if>
+			<if test="o.instr != null and o.instr != ''"> and instr = #{o.instr}</if>
+			<if test="o.outstr != null and o.outstr != ''"> and outstr = #{o.outstr}</if>
+			<if test="o.module != null and o.module != ''"> and module = #{o.module}</if>
+			<if test="o.url != null and o.url != ''"> and url = #{o.url}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into tl_sys_operation_log
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+    <update id="update" parameterType="Object">
+        update tl_sys_operation_log
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from tl_sys_operation_log where id = #{id}
+    </select>
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select t1.*,t2.realname from tl_sys_operation_log t1,td_sys_user t2 where t1.createuser = t2.id
+        <if test="o.ip != null and o.ip != ''"> and ip = #{o.ip}</if>
+        <if test="o.queryStartTime != null and o.queryStartTime != ''"> and DATE_FORMAT(t1.create_time,'%Y-%m-%d') &lt;= #{o.queryStartTime}</if>
+        <if test="o.queryEndTime != null and o.queryEndTime != ''"> and DATE_FORMAT(t1.create_time,'%Y-%m-%d') >= #{o.queryEndTime}</if>
+        <if test="o.realName != null and o.realName != ''">  and instr(real_name,#{o.realName}) &gt; 0</if>
+        <if test="o.module != null and o.module != ''"> and instr(module,#{o.module}) &gt; 0</if>
+        <if test="o.url != null and o.url != ''"> and url = #{o.url}</if>
+        order by t1.id desc
+    </select>
+
+    <delete id="removeByEntity">
+        delete from tl_sys_operation_log
+        where id = #{id}
+    </delete>
+
+</mapper>

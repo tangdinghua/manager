@@ -1,0 +1,12 @@
+server:
+  port: 8001
+  session-timeout: 30
+  tomcat.max-threads: 500
+  tomcat.uri-encoding: UTF-8
+  tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH : true
+  tomcat:
+    min-spare-threads: 20
+  connection-timeout: 10000
+spring:
+  profiles:
+    active: prod

@@ -1,0 +1,17 @@
+com\talkweb\busi\entity\MemberGrade.class
+com\talkweb\busi\dao\VideoQueueDao.class
+com\talkweb\busi\entity\Event.class
+com\talkweb\busi\service\EventService.class
+com\talkweb\busi\service\NoticeTemplateService.class
+com\talkweb\busi\service\MemberGradeService.class
+com\talkweb\busi\dao\MemberGradeDao.class
+com\talkweb\busi\service\ProductOrderLogService.class
+com\talkweb\busi\action\BroadbandAction.class
+com\talkweb\busi\dao\NoticeTemplateDao.class
+com\talkweb\busi\dao\EventDao.class
+com\talkweb\busi\entity\ProductOrderLog.class
+com\talkweb\busi\entity\VideoQueue.class
+com\talkweb\busi\dao\ProductOrderLogDao.class
+com\talkweb\busi\service\VideoQueueService.class
+com\talkweb\busi\entity\NoticeTemplate.class
+com\talkweb\busi\service\SocreHisService.class

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover" />
+		<!--引入jquery，jquery.qrcode-->
+		<script src="/js/jquery.min.js" ></script>
+		<script src="/js/qrcode.js" ></script>
+
+		<title></title>
+
+
+
+	</head>
+	<body>
+		<div style="margin: 0 auto; color: #333; max-width: 384px;" th:each="dimensionalCode : ${model.list}">
+			<div id="appUrl" th:utext="${dimensionalCode.appUrl}"   style="display:none"> </div>
+			<div id="qrcode"></div>
+		</div>
+
+
+
+	</body>
+	<script type="text/javascript">
+		var url=document.getElementById("appUrl").textContent;
+		var n=navigator.userAgent
+
+		if(n.indexOf("Windows")){
+			new QRCode(document.getElementById("qrcode"), url);
+			//new QRCode(document.getElementById("iosQrcode"), "https://itunes.apple.com/cn/app/");
+		}else if(n.indexOf("Android")){
+			window.location.href=url;
+		}else{
+			alert("暂不支持ios系统");
+		}
+	</script>
+
+</html>

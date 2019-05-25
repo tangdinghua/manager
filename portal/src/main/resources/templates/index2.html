@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover"/>
+
+		<title></title>
+	</head>
+	<body>
+        <div style="margin: 0 auto; color: #333; max-width: 384px;" th:each="index2 : ${model.list}">
+			<div style="font-size: 14px; margin-top: 20px;line-height: 25px;" >
+                <div style="font-size: 14px; margin-top: 20px;line-height: 25px;">
+				    <p th:utext="${index2.goodsIntro}"></p>
+					<img src="${index2.goodImage}"/>
+                </div>
+			</div>
+        </div>
+	</body>
+</html>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.base.dao.UserDao">
+    <sql id="saveOrUpdateSql">
+        <set>
+			<if test="id != null">id=#{id},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName}, </if>
+			<if test="realName != null and realName != ''">real_name = #{realName}, </if>
+            <if test="mobile != null and mobile != ''">mobile = #{mobile}, </if>
+			<if test="password != null and password != ''">password = #{password}, </if>
+			<if test="orgId != null">org_id = #{orgId}, </if>
+			<if test="status != null and status != ''">status = #{status}, </if>
+			<if test="orgIds != null and orgIds != ''">org_ids = #{orgIds}, </if>
+			<if test="userType != null and userType != ''">user_type = #{userType}, </if>
+			<if test="gender != null and gender != ''">gender = #{gender}, </if>
+			<if test="nation != null and nation != ''">nation = #{nation}, </if>
+			<if test="workJob != null and workJob != ''">work_job = #{workJob}, </if>
+			<if test="headImg != null and headImg != ''">head_img = #{headImg}, </if>
+			<if test="empNo != null and empNo != ''">emp_no = #{empNo}, </if>
+			<if test="isLeader != null and isLeader != ''">is_leader = #{isLeader}, </if>
+			<if test="cardNo != null and cardNo != ''">card_no = #{cardNo}, </if>
+			<if test="edu != null and edu != ''">edu = #{edu}, </if>
+			<if test="ext1 != null and ext1 != ''">ext1 = #{ext1}, </if>
+			<if test="ext2 != null and ext2 != ''">ext2 = #{ext2}, </if>
+			<if test="maintainProfession != null and maintainProfession != ''">maintain_profession = #{maintainProfession}, </if>
+			<if test="workDepartment != null and workDepartment != ''">work_department = #{workDepartment}, </if>
+            create_user = #{createUser}
+        </set>
+    </sql>
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.userName != null and o.userName != ''"> and a.user_name=#{o.userName} </if>
+			<if test="o.realName != null and o.realName != ''"> and instr(real_name,#{o.realName}) &gt; 0 </if>
+			<if test="o.password != null and o.password != ''"> and password = #{o.password}</if>
+			<if test="o.orgId != null  and o.orgId != ''"> and org_id = #{o.orgId}</if>
+            <if test="o.mobile != null  and o.mobile != ''"> and mobile = #{o.mobile}</if>
+			<if test="o.status != null and o.status != ''"> and status = #{o.status}</if>
+			<if test="o.userType != null and o.userType != ''"> and user_type = #{o.userType}</if>
+			<if test="o.gender != null and o.gender != ''"> and gender = #{o.gender}</if>
+			<if test="o.mainOrgId != null and o.mainOrgId != ''"> and parent_id = #{o.mainOrgId}</if>
+			<if test="o.orgCode != null and o.orgCode != ''"> and c.org_code = #{o.orgCode}</if>
+            <if test="o.communityCode != null and o.communityCode != ''"> and bc.community_code = #{o.orgCode}</if>
+			<if test="o.workDepartment != null and o.workDepartment != ''">and work_department = #{o.workDepartment}</if>
+			<if test="o.empNo != null and o.empNo != ''">and emp_no = #{o.empNo}</if>
+			<if test="o.leader != null and o.leader != ''"> and leader = #{o.leader}</if>
+		</where>
+    </sql>
+
+    <select id="modPassword">
+        update td_sys_user set password=#{password} where id =#{id} and password=#{oldpassword}
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into td_sys_user
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+
+	<insert id="insertToken" useGeneratedKeys="true" keyProperty="id">
+		insert into tl_sys_token_log(token,create_user) values(#{token},#{createUser})
+	</insert>
+
+	<select id="queryToken" resultType="map">
+		select token from tl_sys_token_log where token=#{token} and create_user=#{createUser}
+	</select>
+    
+    <update id="update">
+        update td_sys_user 
+        <include refid="saveOrUpdateSql"/>
+		where id =#{id}
+    </update>
+	<update id="updateOrgId">
+		update td_sys_user set org_id=#{orgId} where user_name =#{userName}
+	</update>
+	<update id="resetPassword">
+		update td_sys_user set password=#{password}  where id =#{id}
+	</update>
+    <select id="findById" resultType="com.trip.base.entity.User" parameterType="Object">
+         SELECT
+			a.id,
+			a.user_name,
+			a.real_name,
+			a.password,
+			a.org_id,
+			a.org_ids,
+			a.gender,
+			a.nation,
+			a.work_department,
+			a.maintain_profession,
+			a.emp_no,
+			a.card_no,
+			a.work_job,
+			a.edu,
+			a.head_img,
+			a.status,
+			a.create_time,
+			a.create_user,
+			role_name,
+			role_ids,
+		    a.mobile,
+		    role_code,
+		    a.user_type
+		FROM
+			(
+				SELECT
+					*
+				FROM
+					td_sys_user t1
+				LEFT JOIN (select user_id,group_concat(role.id) role_ids,group_concat(role_name) role_name,group_concat(role_code) role_code from td_sys_user_role userrole,td_sys_role role
+				where userrole.role_id = role.id
+				group by user_id) t3 ON t1.id = t3.user_id
+				WHERE
+					t1.id = #{id}
+			) a left join
+		 td_sys_org c
+		on a.org_id = c.id where 1=1
+    </select>
+
+    <select id="findByExample" resultType="com.trip.base.entity.User" parameterType="Object">
+        SELECT
+			distinct a.id,
+			a.user_name,
+			a.real_name,
+			a.org_id,
+			a.gender,
+			a.work_job workJob,
+			emp_no empNo,
+			maintain_profession maintainProfession,
+			work_department,
+			a.org_ids,
+			a.status,
+			a.password,
+			a.create_time,
+			a.create_user,
+		(select org_name from td_sys_org so where so.id=c.parent_id)  mainOrgName,
+			a.mobile,
+			role_name,
+			c.org_name orgName,
+			a.user_type,
+			a.head_img,
+			b.role_code,
+			a.is_leader isLeader,group_concat(bc.community_name)  communityName
+		FROM
+			td_sys_user a
+		LEFT JOIN (
+			SELECT
+				user_id,
+				group_concat(role_name) role_name,
+		group_concat(role_code) role_code
+			FROM
+				td_sys_role t1,
+				td_sys_user_role t2
+			WHERE
+				t1.id = t2.role_id group by user_id
+		) b ON a.id = b.user_id
+		LEFT JOIN td_sys_org c ON a.org_id = c.id
+        left join td_busi_community bc on bc.org_code=c.org_code
+		left join td_busi_community_user bcu on bcu.community_code=bc.community_code and bcu.user_name=a.user_name
+        <include refid="exampleWhereSql"/>
+		GROUP BY A.ID
+        order by id desc
+
+    </select>
+    <delete id="removeByEntity">
+        delete from td_sys_user where id = #{id} and username!='admin'
+    </delete>
+    <select id="queryUserResource" resultType="com.trip.base.entity.Resource">
+        select t2.resource_code from td_sys_user t1,tb_sys_resource t2,td_sys_user_role t3,td_sys_role_resource t4
+        where t1.id = t3.user_id and t3.role_id = t4.role_id and t4.resource_id = t2.id
+        and t1.id = #{id}
+    </select>
+</mapper>

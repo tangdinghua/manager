@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover"/>
+		<title></title>
+	</head>
+	<body>
+
+		<div style="margin: 0 auto; color: #333; max-width: 384px;" th:each="index : ${model.list}">
+			<h3 style="text-align: center; margin-bottom: 0;" th:utext="${index.goodsName}"></h3>
+			<h4 style="text-align: center;  margin-top: 0;" th:utext="${index.goodsType}"></h4>
+			<div style="font-size: 14px; margin-top: 20px;line-height: 25px;">
+                <img src="${index.goodImage}"/>
+				<p style="font-size: 16px; font-weight: bold;" th:utext="${index.goodsParam}"></p>
+			</div>
+		</div>
+	</body>
+</html>

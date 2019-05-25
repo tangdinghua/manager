@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <properties resource="jdbc.properties"/>
+    
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="conditional">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+        <property name="autoDelimitKeywords" value="false"/>
+    
+        <plugin type="com.talkweb.mybatis.plugin.EntityCommentPlugin" />
+        <plugin type="com.talkweb.mybatis.plugin.Velocity4SrcPlugin">
+            <property name="templatePath" value="${targetProject}/template/src/main/java" />
+            <property name="targetPath" value="${targetProject}/generator" />
+        </plugin>
+        
+        <jdbcConnection driverClass="${jdbc.driverClass}"
+                        connectionURL="${jdbc.url}"
+                        userId="${jdbc.user}"
+                        password="${jdbc.password}">
+        </jdbcConnection>
+        
+        <javaModelGenerator targetPackage="com.talkweb.busi.entity" targetProject="${targetProject}/generator">
+            <property name="rootClass" value="com.talkweb.commons.core.bean.IDEntity" />
+        </javaModelGenerator>
+        
+        <!--定义要导出的表，tableName表示表名，domainObjectName表示实体名-->
+        <table tableName="td_busi_video_queue" domainObjectName="VideoQueue">
+            <property name="comment" value="" />
+            <property name="targetPackage" value="com.talkweb.busi" />
+            <ignoreColumn column="id" />
+            <ignoreColumn column="createTime" />
+            <ignoreColumn column="createUser" />
+        </table>
+
+    </context>
+</generatorConfiguration>

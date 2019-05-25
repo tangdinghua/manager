@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.base.dao.OrgDao">
+
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="orgName != null and orgName != ''">org_name = #{orgName},</if>
+            <if test="orgCode != null and orgCode != ''">org_code = #{orgCode},</if>
+            <if test="orgDepartment !=null and orgDepartment !=''">org_department=#{orgDepartment},</if>
+            <if test="parentId != null and parentId != ''">parent_id = #{parentId},</if>
+            <if test="sort != null">sort = #{sort},</if>
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.orgName != null and o.orgName != ''">and org_name = #{o.orgName}</if>
+            <if test="o.parentId != null and o.parentId != ''">and parent_id = #{o.parentId}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into td_sys_org(org_name,parent_id,create_time,create_user,sort,org_code)values(#{orgName},#{parentId},sysdate(),#{createUser},#{sort},#{orgCode}
+        ) on DUPLICATE key update org_code=#{orgCode}
+    </insert>
+
+    <update id="update">
+        update td_sys_org
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultType="com.trip.base.entity.Org" parameterType="Object">
+        select * from td_sys_org where id = #{id}
+    </select>
+
+    <select id="findByExample" resultType="com.trip.base.entity.Org" parameterType="Object">
+       select distinct t1.*,case when t2.parent_id is null then 0 else 1 end isparent,t1.org_name title,t2.org_name parent_name from td_sys_org t1 left outer join td_sys_org t2 on t1.parent_id = t2.id
+        <where>
+            <if test="o.orgName != null and o.orgName != ''"> and instr(t1.org_name,#{o.orgName}) &gt; 0</if>
+            <if test="o.parentId != null and o.parentId != ''"> and t1.parent_id = #{o.parentId}</if>
+            <if test="o.cityCode != null and o.cityCode != ''"> and t1.city_code = #{o.cityCode}</if>
+            <if test="o.isCity != null and o.isCity != ''"> and t1.is_city = #{o.isCity}</if>
+            <if test="o.isGrid != null and o.isGrid != ''"> and t1.org_code is not null</if>
+        </where>
+        order by cast(t1.id as unsigned  int)  desc
+    </select>
+
+    <select id="queryAllSonOrg" resultType="com.trip.base.entity.Org">
+        select org_code,id from td_sys_org where org_code is not null
+    </select>
+
+    <delete id="removeByEntity">
+        delete from td_sys_org where id = #{id}
+    </delete>
+</mapper>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.base.dao.RoleDao">
+
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="roleName != null and roleName != ''">role_name = #{roleName}, </if>
+			<if test="roleDesc != null and roleDesc != ''">role_desc = #{roleDesc}, </if>
+            <if test="createUser != null and createUser != ''">create_user = #{createUser}, </if>
+            <if test="roleCode != null and roleCode != ''">role_code = #{roleCode}, </if>
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.roleName != null and o.roleName != ''"> and instr(role_name,#{o.roleName}) &gt; 0</if>
+			<if test="o.roleDesc != null and o.roleDesc != ''"> and role_desc = #{o.roleDesc}</if>
+        </where>
+    </sql>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        insert into td_sys_role(role_name,role_desc,role_code,create_time,create_user) values(
+         #{roleName},
+       #{roleDesc},#{roleCode},sysdate(),#{createUser})
+    </insert>
+    
+    <update id="update">
+        update td_sys_role
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}  and ismod !='0'
+    </update>
+
+    <select id="findById" resultType="com.trip.base.entity.Role" parameterType="Object">
+        select * from td_sys_role where id = #{id}
+    </select>
+
+    <select id="findByExample" resultType="com.trip.base.entity.Role" parameterType="Object">
+        select * from td_sys_role o
+        <include refid="exampleWhereSql"/>
+        order by cast(id as unsigned  int)  desc
+    </select>
+    <delete id="removeByEntity">
+        delete from td_sys_role where id = #{id}  and isdelete !='0'
+    </delete>
+
+    <insert id="addResource">
+        insert into td_sys_role_resource(role_id,resource_id) values(#{id},#{resourceId})
+    </insert>
+    <insert id="deleteResource">
+        delete from td_sys_role_resource where role_id=#{id}
+    </insert>
+    <insert id="addUser">
+        insert into td_sys_user_role(role_id,user_id) values(#{id},#{userId})
+    </insert>
+    <delete id="deleteUser">
+        delete from td_sys_user_role where role_id=#{id}
+    </delete>
+    <delete id="deleteRoleByUser">
+        delete from td_sys_user_role where user_id=#{value}
+    </delete>
+    <select id="queryResourceById" resultType="com.trip.base.entity.Role">
+        select t3.id resource_id from td_sys_role t1,td_sys_role_resource t2,tb_sys_resource t3
+        where t1.id = t2.role_id and t2.resource_id = t3.id
+        and t1.id=#{id}
+        order by t1.id desc
+    </select>
+
+    <select id="queryUserById" resultType="com.trip.base.entity.User">
+        select t3.id,user_name,real_name from td_sys_role t1,td_sys_user_role t2,td_sys_user t3
+        where t1.id = t2.role_id and t2.user_id = t3.id
+        and t1.id=#{id}
+        order by t1.id desc
+    </select>
+    <select id="queryNoSelectUser" resultType="com.trip.base.entity.User">
+        select a.id,user_name,real_name from td_sys_user a
+        where not exists (select user_id from td_sys_user_role b where role_id=#{id} and a.id=b.user_id)
+        <if test="orgId!=null and orgId!=''">
+            and org_id = #{orgId}
+        </if>
+        order by a.id desc
+    </select>
+</mapper>
