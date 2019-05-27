@@ -38,7 +38,7 @@
         where id = #{id}  and ismod !='0'
     </update>
 
-    <select id="findById" resultType="com.talkweb.base.entity.Resource" parameterType="Object">
+    <select id="findById" resultType="com.trip.base.entity.Resource" parameterType="Object">
         select * from tb_sys_resource where id = #{id}
     </select>
 
