@@ -26,8 +26,8 @@
                         password="${jdbc.password}">
         </jdbcConnection>
         
-        <javaModelGenerator targetPackage="com.talkweb.busi.entity" targetProject="${targetProject}/generator">
-            <property name="rootClass" value="com.talkweb.commons.core.bean.IDEntity" />
+        <javaModelGenerator targetPackage="com.trip.busi.entity" targetProject="${targetProject}/generator">
+            <property name="rootClass" value="com.trip.commons.core.bean.IDEntity" />
         </javaModelGenerator>
         
         <!--定义要导出的表，tableName表示表名，domainObjectName表示实体名-->

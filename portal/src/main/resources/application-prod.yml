@@ -8,9 +8,9 @@ spring:
       default-property-inclusion: non_null
     datasource:
         name: test
-        url: jdbc:mysql://119.3.15.241:3306/jk
+        url: jdbc:mysql://127.0.0.1:3306/trip
         username: root
-        password: Talkweb@2018
+        password: 123456
         # 使用druid数据源
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.jdbc.Driver
@@ -30,10 +30,10 @@ spring:
     resources:
         static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,file:${app.htmlpath}
 mybatis:
-  mapperLocations: classpath*:/com/talkweb/**/mapper/*.xml
+  mapperLocations: classpath*:/com/trip/**/mapper/*.xml
   configLocation: classpath:/mybatis-config.xml
 logging:
   path: /Users/yko2008/Documents/logs
 app:
   htmlpath: /u01/jk/static
-  imagehost: http://119.3.15.241:8002/
+  imagehost: http://127.0.0.1:8002/

@@ -6,9 +6,9 @@ spring:
           enabled: true
     datasource:
         name: test
-        url: jdbc:mysql://119.3.15.241:3306/jk
+        url: jdbc:mysql://127.0.0.1:3306/trip
         username: root
-        password: Talkweb@2018
+        password: 123456
         # 使用druid数据源
         type: com.alibaba.druid.pool.DruidDataSource
         driver-class-name: com.mysql.jdbc.Driver
@@ -26,10 +26,10 @@ spring:
         poolPreparedStatements: true
         maxOpenPreparedStatements: 20
 mybatis:
-  mapperLocations: classpath*:/com/talkweb/**/mapper/*.xml
+  mapperLocations: classpath*:/com/trip/**/mapper/*.xml
   configLocation: classpath:/mybatis-config.xml
 logging:
   path: /Users/yko2008/Documents/logs
 app:
-  htmlpath: /Users/yko2008/work/twwork/湘西幸福家庭/svn/trunk/jk/api/manager/admin/src/main/resources/public
-  imagehost: http://119.3.15.241:8002/
+  htmlpath: /Users/yko2008/work/twwork/svn/trunk/jk/api/manager/admin/src/main/resources/public
+  imagehost: http://127.0.0.1:8002/
