@@ -1,6 +1,6 @@
-package com.trip.busi.bean;
+package com.trip.busi.entity;
 
-import com.talkweb.commons.core.bean.IDEntity;
+import com.trip.commons.core.bean.IDEntity;
 import java.util.Date;
 
 import lombok.Data;
@@ -23,8 +23,7 @@ public class Traveler extends IDEntity {
 	private String passportPic;
 	
 	private String passportPic2;
-	
-	private Byte isDelete;
+
 	
 	private Date createTime;
 	

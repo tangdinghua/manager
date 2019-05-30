@@ -1,6 +1,6 @@
-package com.trip.busi.bean;
+package com.trip.busi.entity;
 
-import com.talkweb.commons.core.bean.IDEntity;
+import com.trip.commons.core.bean.IDEntity;
 import java.util.Date;
 import java.util.Date;
 
@@ -19,10 +19,7 @@ public class Visa extends IDEntity {
 	*/
 	private String country;
 	
-	/**
-	 * 是否删除0否1是(枚举:YesNoStatus[core])
-	*/
-	private Byte isDelete;
+
 	
 	/**
 	 * 创建时间

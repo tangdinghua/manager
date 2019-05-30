@@ -1,7 +1,7 @@
-package com.trip.busi.action;
+package com.trip.admin.busi.action;
 
-import com.talkweb.commons.core.service.BaseService;
-import com.talkweb.base.action.BaseAction;
+import com.trip.commons.core.service.BaseService;
+import com.trip.base.action.BaseAction;
 import com.trip.busi.entity.Store;
 import com.trip.busi.service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;

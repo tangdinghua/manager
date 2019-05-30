@@ -1,6 +1,6 @@
-package com.trip.busi.bean;
+package com.trip.busi.entity;
 
-import com.talkweb.commons.core.bean.IDEntity;
+import com.trip.commons.core.bean.IDEntity;
 import java.util.Date;
 
 import lombok.Data;
