@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.SalesCreditDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.SalesCredit" extends="base.idEntityMap">
+        <result property="userId" column="user_id" />
+		<result property="allotId" column="allot_id" />
+		<result property="orderId" column="order_id" />
+		<result property="creditAllotStatus" column="credit_allot_status" />
+		<result property="preAllotTime" column="pre_allot_time" jdbcType="TIMESTAMP" />
+		<result property="ackAllotTime" column="ack_allot_time" jdbcType="TIMESTAMP" />
+		<result property="isDelete" column="is_delete" />
+		<result property="createdTime" column="created_time" jdbcType="TIMESTAMP" />
+		<result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="userId != null">user_id = #{userId}, </if>
+			<if test="allotId != null">allot_id = #{allotId}, </if>
+			<if test="orderId != null">order_id = #{orderId}, </if>
+			<if test="credit != null">credit = #{credit}, </if>
+			<if test="creditAllotStatus != null">credit_allot_status = #{creditAllotStatus}, </if>
+			<if test="preAllotTime != null">pre_allot_time = #{preAllotTime, jdbcType=TIMESTAMP}, </if>
+			<if test="ackAllotTime != null">ack_allot_time = #{ackAllotTime, jdbcType=TIMESTAMP}, </if>
+			<if test="isDelete != null">is_delete = #{isDelete}, </if>
+			<if test="createdTime != null">created_time = #{createdTime, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedTime != null">updated_time = #{updatedTime, jdbcType=TIMESTAMP}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.userId != null"> and user_id = #{o.userId}</if>
+			<if test="o.allotId != null"> and allot_id = #{o.allotId}</if>
+			<if test="o.orderId != null"> and order_id = #{o.orderId}</if>
+			<if test="o.credit != null"> and credit = #{o.credit}</if>
+			<if test="o.creditAllotStatus != null"> and credit_allot_status = #{o.creditAllotStatus}</if>
+			<if test="o.preAllotTime != null"> and pre_allot_time = #{o.preAllotTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.ackAllotTime != null"> and ack_allot_time = #{o.ackAllotTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.isDelete != null"> and is_delete = #{o.isDelete}</if>
+			<if test="o.createdTime != null"> and created_time = #{o.createdTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedTime != null"> and updated_time = #{o.updatedTime, jdbcType=TIMESTAMP}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into sales_credit
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update sales_credit
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from sales_credit where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from sales_credit
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from sales_credit
+        where id = #{id}
+    </delete>
+
+</mapper>

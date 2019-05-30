@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.TrainDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.Train" extends="base.idEntityMap">
+        <result property="providerId" column="provider_id" />
+		<result property="videoUrl" column="video_url" />
+		<result property="isDelete" column="is_delete" />
+		<result property="createdTime" column="created_time" jdbcType="TIMESTAMP" />
+		<result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="title != null and title != ''">title = #{title}, </if>
+			<if test="description != null and description != ''">description = #{description}, </if>
+			<if test="providerId != null">provider_id = #{providerId}, </if>
+			<if test="videoUrl != null and videoUrl != ''">video_url = #{videoUrl}, </if>
+			<if test="isDelete != null">is_delete = #{isDelete}, </if>
+			<if test="createdTime != null">created_time = #{createdTime, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedTime != null">updated_time = #{updatedTime, jdbcType=TIMESTAMP}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.title != null and o.title != ''"> and title = #{o.title}</if>
+			<if test="o.description != null and o.description != ''"> and description = #{o.description}</if>
+			<if test="o.providerId != null"> and provider_id = #{o.providerId}</if>
+			<if test="o.videoUrl != null and o.videoUrl != ''"> and video_url = #{o.videoUrl}</if>
+			<if test="o.isDelete != null"> and is_delete = #{o.isDelete}</if>
+			<if test="o.createdTime != null"> and created_time = #{o.createdTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedTime != null"> and updated_time = #{o.updatedTime, jdbcType=TIMESTAMP}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into train
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update train
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from train where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from train
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from train
+        where id = #{id}
+    </delete>
+
+</mapper>

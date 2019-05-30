@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.VisaAttachmentDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.VisaAttachment" extends="base.idEntityMap">
+        <result property="visaId" column="visa_id" />
+		<result property="fileUrl" column="file_url" />
+		<result property="createdTime" column="created_time" jdbcType="TIMESTAMP" />
+		<result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="visaId != null">visa_id = #{visaId}, </if>
+			<if test="fileUrl != null and fileUrl != ''">file_url = #{fileUrl}, </if>
+			<if test="createdTime != null">created_time = #{createdTime, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedTime != null">updated_time = #{updatedTime, jdbcType=TIMESTAMP}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.visaId != null"> and visa_id = #{o.visaId}</if>
+			<if test="o.fileUrl != null and o.fileUrl != ''"> and file_url = #{o.fileUrl}</if>
+			<if test="o.createdTime != null"> and created_time = #{o.createdTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedTime != null"> and updated_time = #{o.updatedTime, jdbcType=TIMESTAMP}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into visa_attachment
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update visa_attachment
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from visa_attachment where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from visa_attachment
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from visa_attachment
+        where id = #{id}
+    </delete>
+
+</mapper>

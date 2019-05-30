@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.OrderInfoDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.OrderInfo" extends="base.idEntityMap">
+        <result property="productId" column="product_id" />
+		<result property="providerId" column="provider_id" />
+		<result property="storeId" column="store_id" />
+		<result property="salesId" column="sales_id" />
+		<result property="orderStatus" column="order_status" />
+		<result property="vertifyCode" column="vertify_code" />
+		<result property="isDelete" column="is_delete" />
+		<result property="createdTime" column="created_time" jdbcType="TIMESTAMP" />
+		<result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP" />
+		<result property="productType" column="product_type" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="name != null and name != ''">name = #{name}, </if>
+			<if test="productId != null">product_id = #{productId}, </if>
+			<if test="amout != null">amout = #{amout}, </if>
+			<if test="customer != null and customer != ''">customer = #{customer}, </if>
+			<if test="phone != null and phone != ''">phone = #{phone}, </if>
+			<if test="address != null and address != ''">address = #{address}, </if>
+			<if test="providerId != null">provider_id = #{providerId}, </if>
+			<if test="storeId != null">store_id = #{storeId}, </if>
+			<if test="salesId != null">sales_id = #{salesId}, </if>
+			<if test="orderStatus != null">order_status = #{orderStatus}, </if>
+			<if test="vertifyCode != null and vertifyCode != ''">vertify_code = #{vertifyCode}, </if>
+			<if test="isDelete != null">is_delete = #{isDelete}, </if>
+			<if test="createdTime != null">created_time = #{createdTime, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedTime != null">updated_time = #{updatedTime, jdbcType=TIMESTAMP}, </if>
+			<if test="orderid != null and orderid != ''">orderid = #{orderid}, </if>
+			<if test="productType != null">product_type = #{productType}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.name != null and o.name != ''"> and name = #{o.name}</if>
+			<if test="o.productId != null"> and product_id = #{o.productId}</if>
+			<if test="o.amout != null"> and amout = #{o.amout}</if>
+			<if test="o.customer != null and o.customer != ''"> and customer = #{o.customer}</if>
+			<if test="o.phone != null and o.phone != ''"> and phone = #{o.phone}</if>
+			<if test="o.address != null and o.address != ''"> and address = #{o.address}</if>
+			<if test="o.providerId != null"> and provider_id = #{o.providerId}</if>
+			<if test="o.storeId != null"> and store_id = #{o.storeId}</if>
+			<if test="o.salesId != null"> and sales_id = #{o.salesId}</if>
+			<if test="o.orderStatus != null"> and order_status = #{o.orderStatus}</if>
+			<if test="o.vertifyCode != null and o.vertifyCode != ''"> and vertify_code = #{o.vertifyCode}</if>
+			<if test="o.isDelete != null"> and is_delete = #{o.isDelete}</if>
+			<if test="o.createdTime != null"> and created_time = #{o.createdTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedTime != null"> and updated_time = #{o.updatedTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.orderid != null and o.orderid != ''"> and orderid = #{o.orderid}</if>
+			<if test="o.productType != null"> and product_type = #{o.productType}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into order_info
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update order_info
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from order_info where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from order_info
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from order_info
+        where id = #{id}
+    </delete>
+
+</mapper>

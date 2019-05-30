@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.OrdercreditDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.Ordercredit" extends="base.idEntityMap">
+        <result property="orderId" column="order_id" />
+		<result property="inviteCommissionRate" column="invite_commission_rate" />
+		<result property="inviteCredit" column="invite_credit" />
+		<result property="salesCommissionRate" column="sales_commission_rate" />
+		<result property="salesCredit" column="sales_credit" />
+		<result property="allotStatus" column="allot_status" />
+		<result property="isDelete" column="is_delete" />
+		<result property="createdTime" column="created_time" jdbcType="TIMESTAMP" />
+		<result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="orderId != null">order_id = #{orderId}, </if>
+			<if test="credit != null">credit = #{credit}, </if>
+			<if test="inviteCommissionRate != null">invite_commission_rate = #{inviteCommissionRate}, </if>
+			<if test="inviteCredit != null">invite_credit = #{inviteCredit}, </if>
+			<if test="salesCommissionRate != null">sales_commission_rate = #{salesCommissionRate}, </if>
+			<if test="salesCredit != null">sales_credit = #{salesCredit}, </if>
+			<if test="allotStatus != null">allot_status = #{allotStatus}, </if>
+			<if test="isDelete != null">is_delete = #{isDelete}, </if>
+			<if test="createdTime != null">created_time = #{createdTime, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedTime != null">updated_time = #{updatedTime, jdbcType=TIMESTAMP}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.orderId != null"> and order_id = #{o.orderId}</if>
+			<if test="o.credit != null"> and credit = #{o.credit}</if>
+			<if test="o.inviteCommissionRate != null"> and invite_commission_rate = #{o.inviteCommissionRate}</if>
+			<if test="o.inviteCredit != null"> and invite_credit = #{o.inviteCredit}</if>
+			<if test="o.salesCommissionRate != null"> and sales_commission_rate = #{o.salesCommissionRate}</if>
+			<if test="o.salesCredit != null"> and sales_credit = #{o.salesCredit}</if>
+			<if test="o.allotStatus != null"> and allot_status = #{o.allotStatus}</if>
+			<if test="o.isDelete != null"> and is_delete = #{o.isDelete}</if>
+			<if test="o.createdTime != null"> and created_time = #{o.createdTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedTime != null"> and updated_time = #{o.updatedTime, jdbcType=TIMESTAMP}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into order_credit
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update order_credit
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from order_credit where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from order_credit
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from order_credit
+        where id = #{id}
+    </delete>
+
+</mapper>

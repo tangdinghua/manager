@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.OrderConstractDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.OrderConstract" extends="base.idEntityMap">
+        <result property="constractPic" column="constract_pic" />
+		<result property="updateTime" column="update_time" jdbcType="TIMESTAMP" />
+		<result property="userId" column="user_id" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="orderid != null and orderid != ''">orderid = #{orderid}, </if>
+			<if test="constractPic != null and constractPic != ''">constract_pic = #{constractPic}, </if>
+			<if test="updateTime != null">update_time = #{updateTime, jdbcType=TIMESTAMP}, </if>
+			<if test="userId != null">user_id = #{userId}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.orderid != null and o.orderid != ''"> and orderid = #{o.orderid}</if>
+			<if test="o.constractPic != null and o.constractPic != ''"> and constract_pic = #{o.constractPic}</if>
+			<if test="o.updateTime != null"> and update_time = #{o.updateTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.userId != null"> and user_id = #{o.userId}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into order_constract
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update order_constract
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from order_constract where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from order_constract
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from order_constract
+        where id = #{id}
+    </delete>
+
+</mapper>

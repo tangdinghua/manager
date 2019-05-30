@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.ProductCommentDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.ProductComment" extends="base.idEntityMap">
+        <result property="orderId" column="order_id" />
+		<result property="productId" column="product_id" />
+		<result property="userId" column="user_id" />
+		<result property="isDelete" column="is_delete" />
+		<result property="createdTime" column="created_time" jdbcType="TIMESTAMP" />
+		<result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP" />
+		<result property="commentStauts" column="comment_stauts" />
+		<result property="commentPic1" column="comment_pic_1" />
+		<result property="commentPic2" column="comment_pic_2" />
+		<result property="commentPic3" column="comment_pic_3" />
+		<result property="commentPic4" column="comment_pic_4" />
+		<result property="commentPic5" column="comment_pic_5" />
+		<result property="guideGrade" column="guide_grade" />
+		<result property="goodsGrade" column="goods_grade" />
+		<result property="planGrade" column="plan_grade" />
+		<result property="trafficGrade" column="traffic_grade" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="orderId != null and orderId != ''">order_id = #{orderId}, </if>
+			<if test="productId != null">product_id = #{productId}, </if>
+			<if test="userId != null">user_id = #{userId}, </if>
+			<if test="credit != null">credit = #{credit}, </if>
+			<if test="comment != null and comment != ''">comment = #{comment}, </if>
+			<if test="isDelete != null">is_delete = #{isDelete}, </if>
+			<if test="createdTime != null">created_time = #{createdTime, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedTime != null">updated_time = #{updatedTime, jdbcType=TIMESTAMP}, </if>
+			<if test="commentStauts != null and commentStauts != ''">comment_stauts = #{commentStauts}, </if>
+			<if test="commentPic1 != null and commentPic1 != ''">comment_pic_1 = #{commentPic1}, </if>
+			<if test="commentPic2 != null and commentPic2 != ''">comment_pic_2 = #{commentPic2}, </if>
+			<if test="commentPic3 != null and commentPic3 != ''">comment_pic_3 = #{commentPic3}, </if>
+			<if test="commentPic4 != null and commentPic4 != ''">comment_pic_4 = #{commentPic4}, </if>
+			<if test="commentPic5 != null and commentPic5 != ''">comment_pic_5 = #{commentPic5}, </if>
+			<if test="grade != null">grade = #{grade}, </if>
+			<if test="guideGrade != null">guide_grade = #{guideGrade}, </if>
+			<if test="goodsGrade != null">goods_grade = #{goodsGrade}, </if>
+			<if test="planGrade != null">plan_grade = #{planGrade}, </if>
+			<if test="trafficGrade != null">traffic_grade = #{trafficGrade}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.orderId != null and o.orderId != ''"> and order_id = #{o.orderId}</if>
+			<if test="o.productId != null"> and product_id = #{o.productId}</if>
+			<if test="o.userId != null"> and user_id = #{o.userId}</if>
+			<if test="o.credit != null"> and credit = #{o.credit}</if>
+			<if test="o.comment != null and o.comment != ''"> and comment = #{o.comment}</if>
+			<if test="o.isDelete != null"> and is_delete = #{o.isDelete}</if>
+			<if test="o.createdTime != null"> and created_time = #{o.createdTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedTime != null"> and updated_time = #{o.updatedTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.commentStauts != null and o.commentStauts != ''"> and comment_stauts = #{o.commentStauts}</if>
+			<if test="o.commentPic1 != null and o.commentPic1 != ''"> and comment_pic_1 = #{o.commentPic1}</if>
+			<if test="o.commentPic2 != null and o.commentPic2 != ''"> and comment_pic_2 = #{o.commentPic2}</if>
+			<if test="o.commentPic3 != null and o.commentPic3 != ''"> and comment_pic_3 = #{o.commentPic3}</if>
+			<if test="o.commentPic4 != null and o.commentPic4 != ''"> and comment_pic_4 = #{o.commentPic4}</if>
+			<if test="o.commentPic5 != null and o.commentPic5 != ''"> and comment_pic_5 = #{o.commentPic5}</if>
+			<if test="o.grade != null"> and grade = #{o.grade}</if>
+			<if test="o.guideGrade != null"> and guide_grade = #{o.guideGrade}</if>
+			<if test="o.goodsGrade != null"> and goods_grade = #{o.goodsGrade}</if>
+			<if test="o.planGrade != null"> and plan_grade = #{o.planGrade}</if>
+			<if test="o.trafficGrade != null"> and traffic_grade = #{o.trafficGrade}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into product_comment
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update product_comment
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from product_comment where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from product_comment
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from product_comment
+        where id = #{id}
+    </delete>
+
+</mapper>

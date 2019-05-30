@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.OrderNoticeDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.OrderNotice" extends="base.idEntityMap">
+        <result property="noticeFilename" column="notice_filename" />
+		<result property="realFilename" column="real_filename" />
+		<result property="uploadTime" column="upload_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="orderid != null and orderid != ''">orderid = #{orderid}, </if>
+			<if test="noticeFilename != null and noticeFilename != ''">notice_filename = #{noticeFilename}, </if>
+			<if test="realFilename != null and realFilename != ''">real_filename = #{realFilename}, </if>
+			<if test="uploadTime != null">upload_time = #{uploadTime, jdbcType=TIMESTAMP}, </if>
+			<if test="userid != null">userid = #{userid}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.orderid != null and o.orderid != ''"> and orderid = #{o.orderid}</if>
+			<if test="o.noticeFilename != null and o.noticeFilename != ''"> and notice_filename = #{o.noticeFilename}</if>
+			<if test="o.realFilename != null and o.realFilename != ''"> and real_filename = #{o.realFilename}</if>
+			<if test="o.uploadTime != null"> and upload_time = #{o.uploadTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.userid != null"> and userid = #{o.userid}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into order_notice
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update order_notice
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from order_notice where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from order_notice
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from order_notice
+        where id = #{id}
+    </delete>
+
+</mapper>

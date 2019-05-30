@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.StoreBrandRelationDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.StoreBrandRelation" extends="base.idEntityMap">
+        <result property="storeId" column="store_id" />
+		<result property="brandId" column="brand_id" />
+		<result property="isOnSale" column="is_on_sale" />
+		<result property="createdTime" column="created_time" jdbcType="TIMESTAMP" />
+		<result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="storeId != null">store_id = #{storeId}, </if>
+			<if test="brandId != null">brand_id = #{brandId}, </if>
+			<if test="isOnSale != null">is_on_sale = #{isOnSale}, </if>
+			<if test="createdTime != null">created_time = #{createdTime, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedTime != null">updated_time = #{updatedTime, jdbcType=TIMESTAMP}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.storeId != null"> and store_id = #{o.storeId}</if>
+			<if test="o.brandId != null"> and brand_id = #{o.brandId}</if>
+			<if test="o.isOnSale != null"> and is_on_sale = #{o.isOnSale}</if>
+			<if test="o.createdTime != null"> and created_time = #{o.createdTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedTime != null"> and updated_time = #{o.updatedTime, jdbcType=TIMESTAMP}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into store_brand_relation
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update store_brand_relation
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from store_brand_relation where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from store_brand_relation
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from store_brand_relation
+        where id = #{id}
+    </delete>
+
+</mapper>

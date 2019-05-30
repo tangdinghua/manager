@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.ProductDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.Product" extends="base.idEntityMap">
+        <result property="briefDesc" column="brief_desc" />
+		<result property="sortId" column="sort_id" />
+		<result property="regionId" column="region_id" />
+		<result property="regionSortId" column="region_sort_id" />
+		<result property="providerId" column="provider_id" />
+		<result property="strikePrice" column="strike_price" />
+		<result property="commissionRate" column="commission_rate" />
+		<result property="imageUrl" column="image_url" />
+		<result property="videoUrl" column="video_url" />
+		<result property="isDelete" column="is_delete" />
+		<result property="createdTime" column="created_time" jdbcType="TIMESTAMP" />
+		<result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="name != null and name != ''">name = #{name}, </if>
+			<if test="briefDesc != null and briefDesc != ''">brief_desc = #{briefDesc}, </if>
+			<if test="sortId != null">sort_id = #{sortId}, </if>
+			<if test="regionId != null">region_id = #{regionId}, </if>
+			<if test="regionSortId != null">region_sort_id = #{regionSortId}, </if>
+			<if test="providerId != null">provider_id = #{providerId}, </if>
+			<if test="cost != null">cost = #{cost}, </if>
+			<if test="strikePrice != null">strike_price = #{strikePrice}, </if>
+			<if test="price != null">price = #{price}, </if>
+			<if test="commissionRate != null">commission_rate = #{commissionRate}, </if>
+			<if test="imageUrl != null and imageUrl != ''">image_url = #{imageUrl}, </if>
+			<if test="videoUrl != null and videoUrl != ''">video_url = #{videoUrl}, </if>
+			<if test="remark != null and remark != ''">remark = #{remark}, </if>
+			<if test="isDelete != null">is_delete = #{isDelete}, </if>
+			<if test="createdTime != null">created_time = #{createdTime, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedTime != null">updated_time = #{updatedTime, jdbcType=TIMESTAMP}, </if>
+			<if test="description != null">description = #{description}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.name != null and o.name != ''"> and name = #{o.name}</if>
+			<if test="o.briefDesc != null and o.briefDesc != ''"> and brief_desc = #{o.briefDesc}</if>
+			<if test="o.sortId != null"> and sort_id = #{o.sortId}</if>
+			<if test="o.regionId != null"> and region_id = #{o.regionId}</if>
+			<if test="o.regionSortId != null"> and region_sort_id = #{o.regionSortId}</if>
+			<if test="o.providerId != null"> and provider_id = #{o.providerId}</if>
+			<if test="o.cost != null"> and cost = #{o.cost}</if>
+			<if test="o.strikePrice != null"> and strike_price = #{o.strikePrice}</if>
+			<if test="o.price != null"> and price = #{o.price}</if>
+			<if test="o.commissionRate != null"> and commission_rate = #{o.commissionRate}</if>
+			<if test="o.imageUrl != null and o.imageUrl != ''"> and image_url = #{o.imageUrl}</if>
+			<if test="o.videoUrl != null and o.videoUrl != ''"> and video_url = #{o.videoUrl}</if>
+			<if test="o.remark != null and o.remark != ''"> and remark = #{o.remark}</if>
+			<if test="o.isDelete != null"> and is_delete = #{o.isDelete}</if>
+			<if test="o.createdTime != null"> and created_time = #{o.createdTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedTime != null"> and updated_time = #{o.updatedTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.description != null"> and description = #{o.description}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into product
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update product
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from product where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from product
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from product
+        where id = #{id}
+    </delete>
+
+</mapper>

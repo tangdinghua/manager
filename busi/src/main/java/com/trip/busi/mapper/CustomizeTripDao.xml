@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.CustomizeTripDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.CustomizeTrip" extends="base.idEntityMap">
+        <result property="userId" column="user_id" />
+		<result property="storeId" column="store_id" />
+		<result property="customizeType" column="customize_TYPE" />
+		<result property="departureTime" column="departure_time" />
+		<result property="backTime" column="back_time" />
+		<result property="planDesign" column="plan_design" />
+		<result property="hotelDesign" column="hotel_design" />
+		<result property="airDesign" column="air_design" />
+		<result property="goodsDesign" column="goods_design" />
+		<result property="carDesign" column="car_design" />
+		<result property="ticketDesign" column="ticket_design" />
+		<result property="enterpriseName" column="enterprise_name" />
+		<result property="linkMan" column="link_man" />
+		<result property="linkPhone" column="link_phone" />
+		<result property="customTime" column="custom_time" jdbcType="TIMESTAMP" />
+		<result property="isDelete" column="is_delete" />
+		<result property="createUser" column="create_user" />
+		<result property="maintainUserId" column="maintain_user_id" />
+		<result property="maintainTime" column="maintain_time" jdbcType="TIMESTAMP" />
+		<result property="salesProption1" column="sales_proption_1" />
+		<result property="salesMoney1" column="sales_money_1" />
+		<result property="salesProption2" column="sales_proption_2" />
+		<result property="salesMoney2" column="sales_money_2" />
+		<result property="finalMoeny" column="final_moeny" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="userId != null">user_id = #{userId}, </if>
+			<if test="storeId != null">store_id = #{storeId}, </if>
+			<if test="customizeType != null and customizeType != ''">customize_TYPE = #{customizeType}, </if>
+			<if test="departure != null and departure != ''">departure = #{departure}, </if>
+			<if test="destination != null and destination != ''">destination = #{destination}, </if>
+			<if test="departureTime != null and departureTime != ''">departure_time = #{departureTime}, </if>
+			<if test="backTime != null and backTime != ''">back_time = #{backTime}, </if>
+			<if test="total != null">total = #{total}, </if>
+			<if test="budget != null and budget != ''">budget = #{budget}, </if>
+			<if test="planDesign != null">plan_design = #{planDesign}, </if>
+			<if test="hotelDesign != null">hotel_design = #{hotelDesign}, </if>
+			<if test="airDesign != null">air_design = #{airDesign}, </if>
+			<if test="goodsDesign != null">goods_design = #{goodsDesign}, </if>
+			<if test="carDesign != null">car_design = #{carDesign}, </if>
+			<if test="ticketDesign != null">ticket_design = #{ticketDesign}, </if>
+			<if test="enterpriseName != null and enterpriseName != ''">enterprise_name = #{enterpriseName}, </if>
+			<if test="linkMan != null and linkMan != ''">link_man = #{linkMan}, </if>
+			<if test="linkPhone != null and linkPhone != ''">link_phone = #{linkPhone}, </if>
+			<if test="customTime != null">custom_time = #{customTime, jdbcType=TIMESTAMP}, </if>
+			<if test="isDelete != null">is_delete = #{isDelete}, </if>
+			<if test="createUser != null">create_user = #{createUser}, </if>
+			<if test="maintainUserId != null">maintain_user_id = #{maintainUserId}, </if>
+			<if test="maintainTime != null">maintain_time = #{maintainTime, jdbcType=TIMESTAMP}, </if>
+			<if test="profit != null and profit != ''">profit = #{profit}, </if>
+			<if test="salesProption1 != null and salesProption1 != ''">sales_proption_1 = #{salesProption1}, </if>
+			<if test="salesMoney1 != null and salesMoney1 != ''">sales_money_1 = #{salesMoney1}, </if>
+			<if test="salesProption2 != null and salesProption2 != ''">sales_proption_2 = #{salesProption2}, </if>
+			<if test="salesMoney2 != null and salesMoney2 != ''">sales_money_2 = #{salesMoney2}, </if>
+			<if test="finalMoeny != null and finalMoeny != ''">final_moeny = #{finalMoeny}, </if>
+			<if test="remark != null and remark != ''">remark = #{remark}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.userId != null"> and user_id = #{o.userId}</if>
+			<if test="o.storeId != null"> and store_id = #{o.storeId}</if>
+			<if test="o.customizeType != null and o.customizeType != ''"> and customize_TYPE = #{o.customizeType}</if>
+			<if test="o.departure != null and o.departure != ''"> and departure = #{o.departure}</if>
+			<if test="o.destination != null and o.destination != ''"> and destination = #{o.destination}</if>
+			<if test="o.departureTime != null and o.departureTime != ''"> and departure_time = #{o.departureTime}</if>
+			<if test="o.backTime != null and o.backTime != ''"> and back_time = #{o.backTime}</if>
+			<if test="o.total != null"> and total = #{o.total}</if>
+			<if test="o.budget != null and o.budget != ''"> and budget = #{o.budget}</if>
+			<if test="o.planDesign != null"> and plan_design = #{o.planDesign}</if>
+			<if test="o.hotelDesign != null"> and hotel_design = #{o.hotelDesign}</if>
+			<if test="o.airDesign != null"> and air_design = #{o.airDesign}</if>
+			<if test="o.goodsDesign != null"> and goods_design = #{o.goodsDesign}</if>
+			<if test="o.carDesign != null"> and car_design = #{o.carDesign}</if>
+			<if test="o.ticketDesign != null"> and ticket_design = #{o.ticketDesign}</if>
+			<if test="o.enterpriseName != null and o.enterpriseName != ''"> and enterprise_name = #{o.enterpriseName}</if>
+			<if test="o.linkMan != null and o.linkMan != ''"> and link_man = #{o.linkMan}</if>
+			<if test="o.linkPhone != null and o.linkPhone != ''"> and link_phone = #{o.linkPhone}</if>
+			<if test="o.customTime != null"> and custom_time = #{o.customTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.isDelete != null"> and is_delete = #{o.isDelete}</if>
+			<if test="o.createUser != null"> and create_user = #{o.createUser}</if>
+			<if test="o.maintainUserId != null"> and maintain_user_id = #{o.maintainUserId}</if>
+			<if test="o.maintainTime != null"> and maintain_time = #{o.maintainTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.profit != null and o.profit != ''"> and profit = #{o.profit}</if>
+			<if test="o.salesProption1 != null and o.salesProption1 != ''"> and sales_proption_1 = #{o.salesProption1}</if>
+			<if test="o.salesMoney1 != null and o.salesMoney1 != ''"> and sales_money_1 = #{o.salesMoney1}</if>
+			<if test="o.salesProption2 != null and o.salesProption2 != ''"> and sales_proption_2 = #{o.salesProption2}</if>
+			<if test="o.salesMoney2 != null and o.salesMoney2 != ''"> and sales_money_2 = #{o.salesMoney2}</if>
+			<if test="o.finalMoeny != null and o.finalMoeny != ''"> and final_moeny = #{o.finalMoeny}</if>
+			<if test="o.remark != null and o.remark != ''"> and remark = #{o.remark}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into customize_trip
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update customize_trip
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from customize_trip where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from customize_trip
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from customize_trip
+        where id = #{id}
+    </delete>
+
+</mapper>

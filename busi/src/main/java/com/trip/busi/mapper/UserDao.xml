@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.UserDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.User" extends="base.idEntityMap">
+        <result property="openId" column="open_id" />
+		<result property="nickName" column="nick_name" />
+		<result property="realName" column="real_name" />
+		<result property="userType" column="user_type" />
+		<result property="isDelete" column="is_delete" />
+		<result property="createdTime" column="created_time" jdbcType="TIMESTAMP" />
+		<result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="openId != null and openId != ''">open_id = #{openId}, </if>
+			<if test="nickName != null and nickName != ''">nick_name = #{nickName}, </if>
+			<if test="realName != null and realName != ''">real_name = #{realName}, </if>
+			<if test="sex != null">sex = #{sex}, </if>
+			<if test="phone != null and phone != ''">phone = #{phone}, </if>
+			<if test="userType != null">user_type = #{userType}, </if>
+			<if test="avatar != null and avatar != ''">avatar = #{avatar}, </if>
+			<if test="isDelete != null">is_delete = #{isDelete}, </if>
+			<if test="createdTime != null">created_time = #{createdTime, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedTime != null">updated_time = #{updatedTime, jdbcType=TIMESTAMP}, </if>
+			<if test="address != null and address != ''">address = #{address}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.openId != null and o.openId != ''"> and open_id = #{o.openId}</if>
+			<if test="o.nickName != null and o.nickName != ''"> and nick_name = #{o.nickName}</if>
+			<if test="o.realName != null and o.realName != ''"> and real_name = #{o.realName}</if>
+			<if test="o.sex != null"> and sex = #{o.sex}</if>
+			<if test="o.phone != null and o.phone != ''"> and phone = #{o.phone}</if>
+			<if test="o.userType != null"> and user_type = #{o.userType}</if>
+			<if test="o.avatar != null and o.avatar != ''"> and avatar = #{o.avatar}</if>
+			<if test="o.isDelete != null"> and is_delete = #{o.isDelete}</if>
+			<if test="o.createdTime != null"> and created_time = #{o.createdTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedTime != null"> and updated_time = #{o.updatedTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.address != null and o.address != ''"> and address = #{o.address}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into user
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update user
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from user where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from user
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from user
+        where id = #{id}
+    </delete>
+
+</mapper>

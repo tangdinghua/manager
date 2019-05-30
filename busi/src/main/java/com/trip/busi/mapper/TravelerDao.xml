@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.TravelerDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.Traveler" extends="base.idEntityMap">
+        <result property="userId" column="user_id" />
+		<result property="traverUser" column="traver_user" />
+		<result property="idCard" column="id_card" />
+		<result property="idCardPic" column="id_card_pic" />
+		<result property="idCardPic2" column="id_card_pic2" />
+		<result property="passportPic" column="passport_pic" />
+		<result property="passportPic2" column="passport_pic_2" />
+		<result property="isDelete" column="is_delete" />
+		<result property="createTime" column="create_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="userId != null">user_id = #{userId}, </if>
+			<if test="traverUser != null and traverUser != ''">traver_user = #{traverUser}, </if>
+			<if test="phone != null and phone != ''">phone = #{phone}, </if>
+			<if test="idCard != null and idCard != ''">id_card = #{idCard}, </if>
+			<if test="idCardPic != null and idCardPic != ''">id_card_pic = #{idCardPic}, </if>
+			<if test="idCardPic2 != null and idCardPic2 != ''">id_card_pic2 = #{idCardPic2}, </if>
+			<if test="passportPic != null and passportPic != ''">passport_pic = #{passportPic}, </if>
+			<if test="passportPic2 != null and passportPic2 != ''">passport_pic_2 = #{passportPic2}, </if>
+			<if test="isDelete != null">is_delete = #{isDelete}, </if>
+			<if test="createTime != null">create_time = #{createTime, jdbcType=TIMESTAMP}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.userId != null"> and user_id = #{o.userId}</if>
+			<if test="o.traverUser != null and o.traverUser != ''"> and traver_user = #{o.traverUser}</if>
+			<if test="o.phone != null and o.phone != ''"> and phone = #{o.phone}</if>
+			<if test="o.idCard != null and o.idCard != ''"> and id_card = #{o.idCard}</if>
+			<if test="o.idCardPic != null and o.idCardPic != ''"> and id_card_pic = #{o.idCardPic}</if>
+			<if test="o.idCardPic2 != null and o.idCardPic2 != ''"> and id_card_pic2 = #{o.idCardPic2}</if>
+			<if test="o.passportPic != null and o.passportPic != ''"> and passport_pic = #{o.passportPic}</if>
+			<if test="o.passportPic2 != null and o.passportPic2 != ''"> and passport_pic_2 = #{o.passportPic2}</if>
+			<if test="o.isDelete != null"> and is_delete = #{o.isDelete}</if>
+			<if test="o.createTime != null"> and create_time = #{o.createTime, jdbcType=TIMESTAMP}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into traveler
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update traveler
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from traveler where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from traveler
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from traveler
+        where id = #{id}
+    </delete>
+
+</mapper>

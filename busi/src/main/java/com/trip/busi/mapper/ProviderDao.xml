@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.ProviderDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.Provider" extends="base.idEntityMap">
+        <result property="providerName" column="provider_name" />
+		<result property="linkMan" column="link_man" />
+		<result property="linkNum" column="link_num" />
+		<result property="totalDays" column="total_days" />
+		<result property="endTime" column="end_time" jdbcType="TIMESTAMP" />
+		<result property="subCount" column="sub_count" />
+		<result property="isDelete" column="is_delete" />
+		<result property="createdTime" column="created_time" jdbcType="TIMESTAMP" />
+		<result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="providerName != null and providerName != ''">provider_name = #{providerName}, </if>
+			<if test="linkMan != null and linkMan != ''">link_man = #{linkMan}, </if>
+			<if test="linkNum != null and linkNum != ''">link_num = #{linkNum}, </if>
+			<if test="address != null and address != ''">address = #{address}, </if>
+			<if test="totalDays != null">total_days = #{totalDays}, </if>
+			<if test="endTime != null">end_time = #{endTime, jdbcType=TIMESTAMP}, </if>
+			<if test="subCount != null">sub_count = #{subCount}, </if>
+			<if test="isDelete != null">is_delete = #{isDelete}, </if>
+			<if test="createdTime != null">created_time = #{createdTime, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedTime != null">updated_time = #{updatedTime, jdbcType=TIMESTAMP}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.providerName != null and o.providerName != ''"> and provider_name = #{o.providerName}</if>
+			<if test="o.linkMan != null and o.linkMan != ''"> and link_man = #{o.linkMan}</if>
+			<if test="o.linkNum != null and o.linkNum != ''"> and link_num = #{o.linkNum}</if>
+			<if test="o.address != null and o.address != ''"> and address = #{o.address}</if>
+			<if test="o.totalDays != null"> and total_days = #{o.totalDays}</if>
+			<if test="o.endTime != null"> and end_time = #{o.endTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.subCount != null"> and sub_count = #{o.subCount}</if>
+			<if test="o.isDelete != null"> and is_delete = #{o.isDelete}</if>
+			<if test="o.createdTime != null"> and created_time = #{o.createdTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedTime != null"> and updated_time = #{o.updatedTime, jdbcType=TIMESTAMP}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into provider
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update provider
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from provider where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from provider
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from provider
+        where id = #{id}
+    </delete>
+
+</mapper>

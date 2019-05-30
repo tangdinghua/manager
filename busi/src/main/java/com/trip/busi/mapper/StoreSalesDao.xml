@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.StoreSalesDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.StoreSales" extends="base.idEntityMap">
+        <result property="storeId" column="store_id" />
+		<result property="userId" column="user_id" />
+		<result property="inviteUserId" column="invite_user_id" />
+		<result property="salesLevel" column="sales_level" />
+		<result property="commissionRate" column="commission_rate" />
+		<result property="isDelete" column="is_delete" />
+		<result property="createdTime" column="created_time" jdbcType="TIMESTAMP" />
+		<result property="updatedTime" column="updated_time" jdbcType="TIMESTAMP" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="storeId != null">store_id = #{storeId}, </if>
+			<if test="userId != null">user_id = #{userId}, </if>
+			<if test="inviteUserId != null">invite_user_id = #{inviteUserId}, </if>
+			<if test="salesLevel != null">sales_level = #{salesLevel}, </if>
+			<if test="commissionRate != null">commission_rate = #{commissionRate}, </if>
+			<if test="isDelete != null">is_delete = #{isDelete}, </if>
+			<if test="createdTime != null">created_time = #{createdTime, jdbcType=TIMESTAMP}, </if>
+			<if test="updatedTime != null">updated_time = #{updatedTime, jdbcType=TIMESTAMP}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.storeId != null"> and store_id = #{o.storeId}</if>
+			<if test="o.userId != null"> and user_id = #{o.userId}</if>
+			<if test="o.inviteUserId != null"> and invite_user_id = #{o.inviteUserId}</if>
+			<if test="o.salesLevel != null"> and sales_level = #{o.salesLevel}</if>
+			<if test="o.commissionRate != null"> and commission_rate = #{o.commissionRate}</if>
+			<if test="o.isDelete != null"> and is_delete = #{o.isDelete}</if>
+			<if test="o.createdTime != null"> and created_time = #{o.createdTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.updatedTime != null"> and updated_time = #{o.updatedTime, jdbcType=TIMESTAMP}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into store_sales
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update store_sales
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from store_sales where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from store_sales
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from store_sales
+        where id = #{id}
+    </delete>
+
+</mapper>
