@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.trip.busi.dao.ProductAdDao">
+
+    <resultMap id="resultMap" type="com.trip.busi.entity.ProductAd" extends="base.idEntityMap">
+        <result property="productId" column="PRODUCT_ID" />
+		<result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP" />
+		<result property="status" column="STATUS" />
+		<result property="userId" column="user_id" />		
+    </resultMap>
+
+    <sql id="saveOrUpdateSql">
+        <set>
+            <if test="title != null and title != ''">title = #{title}, </if>
+			<if test="img != null and img != ''">img = #{img}, </if>
+			<if test="productId != null">PRODUCT_ID = #{productId}, </if>
+			<if test="createTime != null">CREATE_TIME = #{createTime, jdbcType=TIMESTAMP}, </if>
+			<if test="status != null and status != ''">STATUS = #{status}, </if>
+			<if test="userId != null">user_id = #{userId}, </if>			
+        </set>
+    </sql>
+
+    <sql id="exampleWhereSql">
+        <where>
+            <if test="o.title != null and o.title != ''"> and title = #{o.title}</if>
+			<if test="o.img != null and o.img != ''"> and img = #{o.img}</if>
+			<if test="o.productId != null"> and PRODUCT_ID = #{o.productId}</if>
+			<if test="o.createTime != null"> and CREATE_TIME = #{o.createTime, jdbcType=TIMESTAMP}</if>
+			<if test="o.status != null and o.status != ''"> and STATUS = #{o.status}</if>
+			<if test="o.userId != null"> and user_id = #{o.userId}</if>			
+        </where>
+    </sql>
+
+    <insert id="insert" parameterType="Object" useGeneratedKeys="true" keyProperty="id">
+        insert into product_ad
+        <include refid="saveOrUpdateSql"/>
+    </insert>
+    
+
+
+    <update id="update" parameterType="Object">
+        update product_ad
+        <include refid="saveOrUpdateSql"/>
+        where id = #{id}
+    </update>
+
+    <select id="findById" resultMap="resultMap" parameterType="long">
+        select * from product_ad where id = #{id}
+    </select>
+
+    <select id="findByExample" resultMap="resultMap" parameterType="Object">
+        select * from product_ad
+        <include refid="exampleWhereSql"/>
+    </select>
+
+    <delete id="removeByEntity">
+        delete from product_ad
+        where id = #{id}
+    </delete>
+
+</mapper>
